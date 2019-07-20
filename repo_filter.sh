@@ -32,17 +32,18 @@ else
 fi
 
 # use both username & repo to avoid duplicate repo names
-REPO_NAMES=$(awk -F '/' '{print $4 "-" $5}' "$REPO_LIST_FILE_NAME")
+REPO_NAMES=$(awk -F '/' '{print $4 "/" $5}' "$REPO_LIST_FILE_NAME")
 for REPO_NAME in $REPO_NAMES; do
-  git clone --recurse-submodules "https://github.com/$REPO_NAME.git" "$REPO_NAME"
-  cp "$LANGUAGE_ANALYZER_SCRIPT" "$REPO_NAME"
-  cd "$REPO_NAME"
+  REPO_FOLDER_NAME="${REPO_NAME/\//-}"
+  git clone --recurse-submodules "https://github.com/$REPO_NAME.git" "$REPO_FOLDER_NAME"
+  cp "$LANGUAGE_ANALYZER_SCRIPT" "$REPO_FOLDER_NAME"
+  cd "$REPO_FOLDER_NAME"
   # Analyze the repo language structure
   RESULT=$(ruby "$LANGUAGE_ANALYZER_SCRIPT" | grep "$DESIRED_LANGUAGE" | wc -l)
-  cd ../
+  cd ..
   # Remove the repo the save space
-  rm -rf "$REPO_NAME"
+  rm -rf "$REPO_FOLDER_NAME"
   if [ ! $RESULT -eq 0 ]; then
-    echo "$REPO_NAME" >> "$OUTPUT"
+    echo "https://github.com/$REPO_NAME" >> "$OUTPUT"
   fi
 done
