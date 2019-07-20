@@ -7,6 +7,7 @@ REPO_LIST_FILE_NAME="repolist.txt"
 # workdir
 RESULT_FOLDER="result_repo_list_$(date +"%s")"
 mkdir "$RESULT_FOLDER"
+mv "$REPO_LIST_FILE_NAME" "$RESULT_FOLDER"
 cd "$RESULT_FOLDER"
 
 # script for analyzing repo language structure
