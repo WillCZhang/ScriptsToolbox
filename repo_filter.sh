@@ -12,11 +12,11 @@ cd "$RESULT_FOLDER"
 
 # script for analyzing repo language structure
 LANGUAGE_ANALYZER="
-require 'rugged'
-require 'linguist'
-repo = Rugged::Repository.new('.')
-project = Linguist::Repository.new(repo, repo.head.target_id)
-puts project.language
+require 'rugged'\n
+require 'linguist'\n
+repo = Rugged::Repository.new('.')\n
+project = Linguist::Repository.new(repo, repo.head.target_id)\n
+puts project.language\n
 "
 
 # use both username & repo to avoid duplicate repo names
